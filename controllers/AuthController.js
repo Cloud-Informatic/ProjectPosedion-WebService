@@ -1,3 +1,22 @@
+const User = require("../models/user");
+
+
+// createUser= async (req, res) => {
+//     try {
+//     //   const UserInfo = await User.findOne({email:req.body.email})
+//     //   logger.customerRegisterLogger.log('info',` ${UserInfo._id}  => ${UserInfo.name} || ${UserInfo.email}`);
+//       res.status(201).json({
+//         status: "success",
+//         user
+//       });
+//     } catch (error) {
+//       res.status(400).json({
+//         status: "fail",
+//         error,
+//       });
+//     }
+//   };
+
 exports.getHomePage = async(req,res) =>{
     try {
         res.status(201).render('homepage',{
@@ -10,14 +29,20 @@ exports.getHomePage = async(req,res) =>{
          });
     }
 };
+
+
 exports.getUSerPage = async(req,res) =>{
     try {
         if (req.session.userID != null || req.session.userID != undefined ) {
-            console.log(`UserID => ${req.session.userID}`);
+            userID = req.session.userID;
+            const userIn = await User.exists({MetaID:req.session.userID});
+            if (userIn == false) {
+              User.create({MetaID:req.session.userID});
+            }
             res.status(201).render('userpage',{
-            status: "success",});  
+            status: "success",userID});  
         }else{
-            res.redirect('/user');
+            res.redirect('/home');
         }
     } catch (error) {
         res.status(400).json({
@@ -39,4 +64,49 @@ exports.getwallet = async(req,res) =>{
         status:"fail"
      });
  }
+}
+
+exports.getimagePage = async(req,res) =>{
+  try {
+    res.status(201).render('folders',{
+      status:"sucsess"
+    });
+  } catch (error) {
+    res.status(400).json({
+      status:"fail"
+    });
+  }
+}
+exports.gettextPage = async(req,res) =>{
+  try {
+    res.status(201).render('folders',{
+      status:"sucsess"
+    });
+  } catch (error) {
+    res.status(400).json({
+      status:"fail"
+    });
+  }
+}
+exports.getvideoPage = async(req,res) =>{
+  try {
+    res.status(201).render('folders',{
+      status:"sucsess"
+    });
+  } catch (error) {
+    res.status(400).json({
+      status:"fail"
+    });
+  }
+}
+exports.getorderPage = async(req,res) =>{
+  try {
+    res.status(201).render('folders',{
+      status:"sucsess"
+    });
+  } catch (error) {
+    res.status(400).json({
+      status:"fail"
+    });
+  }
 }

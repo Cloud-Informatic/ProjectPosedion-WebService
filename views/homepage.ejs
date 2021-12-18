@@ -5,25 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        form{
-            display:none;
-        }
-        button{
-            margin-top:200px;
-            margin-left: 490px;
-            padding: 100px;
-
-        }
-    </style>
+    <link rel="stylesheet" href="homepage.css">
 </head>
 <body>
-    <button id="wallet" class=".enableEthereumButton">Metamask'a Bağlan</button>
+    <!-- <button id="wallet" class=".enableEthereumButton">Metamask'a Bağlan</button> -->
+    <img src="MetaMask_Fox.svg" onclick="connectMetamask()" alt="">
+  
+    <h1 class="block-effect" style="--td: 1.2s">
+        <div class="block-reveal" style="--bc: #000000; --d: .1s; text-align: center;">Project Posedion</div>
+        <div class="block-reveal" style="--bc: #daba08; --d: .5s">   </div>
+      </h1>
+      
+ 
 
     <form id="form" action="/post/walletid" method="post">
         <input type="hidden" id="walletid" name="walletid" value="">
     </form>
 </body>
+
+
 
 <script src="metamask.js"></script>
 <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>

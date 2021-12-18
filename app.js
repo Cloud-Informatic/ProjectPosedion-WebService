@@ -6,6 +6,7 @@ var session = require('express-session');
 const path = require('path');
 
 
+
 const logger = require("./controllers/logger");
 const pageRouther = require('./routes/PageRouthe');
 const postRouther = require('./routes/postRouther');
@@ -28,6 +29,8 @@ const app = express();
 //Middlewares -
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.static(path.join(__dirname,'public','js')));
+app.use(express.static(path.join(__dirname,'public','css')));
+app.use(express.static(path.join(__dirname,'public','image')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));  
 
@@ -51,6 +54,8 @@ app.use('*',(req,res,next) =>{
 
 app.use('/',pageRouther);
 app.use('/post',postRouther)
+
+
 
 
 const port = process.env.PORT || 80; 
