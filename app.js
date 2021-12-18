@@ -1,9 +1,16 @@
 //Lib
 const express = require('express');
 const mongoose = require('mongoose');
-const fileUpload = require('express-fileupload');
 const MongoStore = require('connect-mongo');
 var session = require('express-session');
+const path = require('path');
+
+
+const logger = require("./controllers/logger");
+const pageRouther = require('./routes/PageRouthe');
+const postRouther = require('./routes/postRouther');
+
+
 
 //Mongose Locale DB Connect
 mongoose.connect('mongodb://localhost/YMGK-T',{
@@ -16,13 +23,15 @@ mongoose.connect('mongodb://localhost/YMGK-T',{
 
 //using
 const app = express();
-// app.use(fileUpload());
-
+ 
 
 //Middlewares -
-app.use(express.static(__dirname+'/public'));
-app.use(express.json()) // for parsing application/json
-app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname,'public','js')));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));  
+
+app.set('view engine','ejs');
 
 //Global Variable
 global.userIN = null;
@@ -34,19 +43,22 @@ app.use(session({
     store: MongoStore.create({ mongoUrl: 'mongodb://localhost/YMGK-T'}),
 }));
 
+
 app.use('*',(req,res,next) =>{
     userIN = req.session.userID;
     next();
 });
 
+app.use('/',pageRouther);
+app.use('/post',postRouther)
+
 
 const port = process.env.PORT || 80; 
 app.listen(port,()=>{
-      console.log(`Localhost -> ${port}`);
-    //  logger.portLogger.log('info',`Port ${port}, is avaible!`);
+    console.log("Port Dinleniyor");
+     logger.portLogger_Active.log('info',`Port ${port}, is active!`);
     }).on('error',function (err) {
-        console.log("port is busy");
+     logger.portLogger_NonActive.log('error',`Port ${port}, not run! => ${err}`);
     })
-
 
 module.exports = userIN;

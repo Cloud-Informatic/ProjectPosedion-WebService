@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        form{
+            display:none;
+        }
+        button{
+            margin-top:200px;
+            margin-left: 490px;
+            padding: 100px;
+
+        }
+    </style>
+</head>
+<body>
+    <button id="wallet" class=".enableEthereumButton">Metamask'a Bağlan</button>
+
+    <form id="form" action="/post/walletid" method="post">
+        <input type="hidden" id="walletid" name="walletid" value="">
+    </form>
+</body>
+
+<script src="metamask.js"></script>
+<script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
+</html>

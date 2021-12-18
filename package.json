@@ -18,13 +18,16 @@
   },
   "homepage": "https://github.com/Cloud-Informatic/ProjectPosedion-WebService#readme",
   "dependencies": {
+    "@metamask/detect-provider": "^1.2.0",
     "bcrypt": "^5.0.1",
     "connect-mongo": "^4.6.0",
+    "ejs": "^3.1.6",
     "express": "^4.17.2",
     "express-fileupload": "^1.2.1",
     "express-session": "^1.17.2",
     "fs": "^0.0.1-security",
     "mongoose": "^6.1.2",
+    "path": "^0.12.7",
     "slugify": "^1.6.4",
     "uuid": "^8.3.2",
     "winston": "^3.3.3"
