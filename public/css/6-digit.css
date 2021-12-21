@@ -1,0 +1,118 @@
+*,
+::before,
+::after {
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+:root {
+  --spacing: 4px;
+  --hue: 200;
+  --background2: hsl(0, 0%, 100%);     /*  Form */
+  --background3: hsl(0, 97%, 26%);
+  --background4: hsl(180, 4%, 5%);      /*  İnput İÇ */
+  --brand1: hsl(var(--hue) 80% 60%);
+  --text1: rgb(241, 237, 237);                /*  yazılar */ 
+  --text2: rgb(82, 17, 17);
+}
+
+code {
+  background: var(--background3);
+}
+
+#FormContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: auto;
+  background: var(--background1);
+  color: var(--text1);
+  gap: var(--spacing);
+  font-size: 1.5rem;
+}
+
+
+
+a {
+  color: rgb(129,187,230);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.number-code > div {
+  display: flex;
+  
+}
+.number-code > div > input:not(:last-child) {
+  margin-right: calc(var(--spacing) * 2);
+}
+
+.content-area {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing) * 2);
+  background: var(--background2);
+  padding: var(--spacing);
+  border-radius: var(--spacing);
+  max-width: min(100%, 50rem);
+}
+.content-area p {
+  color: var(--text2);
+  font-size: 0.8em;
+}
+
+form {
+  background-color: grey;
+  
+}
+form input.code-input {
+  font-size: 1em;
+  width: 2.8em;
+  height: 2.8em;
+  text-align: center;
+  flex: 1 0 1em;
+}
+form input[type=submit] {
+  margin-left: auto;
+  display: block;
+  font-size: 10em;
+  cursor: pointer;
+  transition: all cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+}
+form input[type=submit]:hover {
+  background: var(--background3);
+}
+form input.code-input {
+  padding: var(--spacing);
+  border-radius: 10px; 
+  color: var(--text1);
+  background: var(--background4);
+  border: 0;
+  border: 4px solid transparent;
+}
+form input:invalid {
+  box-shadow: none;
+}
+form input:focus {
+  outline: none;
+  border: 2px solid;
+ color: white;
+}
+
+/*# sourceMappingURL=index.css.map */

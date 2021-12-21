@@ -5,6 +5,7 @@ const MongoStore = require('connect-mongo');
 var session = require('express-session');
 const path = require('path');
 
+const fileUpload = require('express-fileupload');
 
 
 const logger = require("./controllers/logger");
@@ -24,6 +25,7 @@ mongoose.connect('mongodb://localhost/YMGK-T',{
 
 //using
 const app = express();
+app.use(fileUpload());
  
 
 //Middlewares -

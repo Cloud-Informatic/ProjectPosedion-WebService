@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
-const NodeRSA = require('node-rsa');
-const key = new NodeRSA({b: 512});
+const { v4: uuidv4 } = require('uuid');
 
 
 const Schema = mongoose.Schema;
@@ -8,6 +7,13 @@ const Schema = mongoose.Schema;
 const User_Shema = new Schema({
     index:{
         type:Number,
+    },
+    key_image:{
+        type:String,
+        default:"null"
+    },
+    key_videos:{
+        type:String,
     },
     MetaID:{
         type:String,
@@ -18,6 +24,5 @@ const User_Shema = new Schema({
     }
 });
 
-console.log(this.MetaID);
 const User= mongoose.model('User',User_Shema);
 module.exports = User;

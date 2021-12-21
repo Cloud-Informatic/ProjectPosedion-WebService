@@ -1,0 +1,29 @@
+body{
+  background-color: rgb(233, 222, 222);
+  background-image: url("tridient.jpg");
+  background-repeat: no-repeat;
+}
+img{
+   height: 100px;
+}
+#finger{
+height: 40px;
+
+}
+p{
+margin-top: 10px;
+font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+h2{
+background-color: rgb(0, 0, 0);
+color: lavender;
+}
+.docs{
+  position: relative;
+  display: inline-block;
+
+  margin-right: 50px;
+  margin-left: 50px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

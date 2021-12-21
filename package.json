@@ -27,6 +27,7 @@
     "express-fileupload": "^1.2.1",
     "express-session": "^1.17.2",
     "fs": "^0.0.1-security",
+    "image-downloader": "^4.0.3",
     "mongoose": "^6.1.2",
     "node-rsa": "^1.1.1",
     "path": "^0.12.7",

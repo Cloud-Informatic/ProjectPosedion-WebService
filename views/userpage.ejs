@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="css-file-icons.css">
     <link rel="stylesheet" href="landing.css">
+    <link rel="stylesheet" href="6-digit.css">
     <title>Hello, world!</title>
     <style>
         body{
@@ -55,7 +56,7 @@
     <div class="container" style="text-align: center; margin-top: 3%;">
         <div class="row">
           <div class="col">
-            <img src="images-solid.svg" onclick="Rimage() " alt="asdsad">
+            <img src="images-solid.svg" data-toggle="modal" data-target="#exampleModal3" alt="asdsad">
             <p>Images</p>
           </div>
           <div class="col">
@@ -63,7 +64,7 @@
             <p>Videos</p>
           </div>
           <div class="col">
-            <img src="file-alt-solid.svg" onclick="Rvideo()" alt="asdsad">
+            <img src="file-alt-solid.svg" onclick="Rtext()" alt="asdsad">
             <p>Text</p>
           </div>
           <div class="col">
@@ -72,9 +73,58 @@
           </div>
         </div>
       </div>
+
+      
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content ">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="display: inline-block;
+          text-align: center;
+          vertical-align: middle;">
+
+            <div id="FormContent">
+              <form id="Form" class="content-area">
+                  <fieldset class='number-code'>
+                      <legend style="text-align: center; color: black;">Secret Key</legend>
+                      <div>
+                          <input type="number" name='code' class='code-input' required />
+                          <input type="number" name='code' class='code-input' required />
+                          <input type="number" name='code' class='code-input' required />
+                          <input type="number" name='code' class='code-input' required />
+                          <input type="number" name='code' class='code-input' required />
+                          <input id="son" type="number" name='code' class='code-input' required />
+                          <input type="hidden" name="hiddencode" id="hiddencode">
+                      </div>
+                  </fieldset>
+
+              </form>
+              <form id="Form2" action="/post/codeverify" method="post">
+                <input type="hidden" id="code" name="code">
+              </form>
+          </div>
+
+          </div>
+          <div class="modal-footer">
+            
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="metamask.js"></script>
+    <script src="6digitcode.js"></script>
     <script src="landing.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
     <script src="css-file-icons.js"></script>
     <script>
       function Rimage() {

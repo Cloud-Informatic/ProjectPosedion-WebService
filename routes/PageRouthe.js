@@ -1,10 +1,11 @@
 const express = require('express');
-const pageController = require('../controllers/AuthController');
+const authController = require('../controllers/RAuthController');
+const pageController = require('../controllers/PageController');
 
 const router = express.Router();
 
-router.route('/').get(pageController.getHomePage);
-router.route('/user').get(pageController.getUSerPage);
+router.route('/').get(authController.getHomePage);
+router.route('/user').get(authController.getUserPage);
 router.route('/image').get(pageController.getimagePage);
 router.route('/text').get(pageController.gettextPage);
 router.route('/video').get(pageController.getvideoPage);
