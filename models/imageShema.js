@@ -8,7 +8,7 @@ const Image_Shema = new Schema({
     image:{
         type:String,
     },
-    imageSubTitle:{
+    SubTitle:{
         type:String
     },
     type:{

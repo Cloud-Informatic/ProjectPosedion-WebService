@@ -8,7 +8,7 @@ const Video_Shema = new Schema({
     video:{
         type:String,
     },
-    imageSubTitle:{
+    SubTitle:{
         type:String
     },
     type:{

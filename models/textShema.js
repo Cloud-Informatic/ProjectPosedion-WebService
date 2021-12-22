@@ -8,7 +8,7 @@ const Text_Shema = new Schema({
     text:{
         type:String,
     },
-    textSubTitle:{
+    SubTitle:{
         type:String
     },
     type:{

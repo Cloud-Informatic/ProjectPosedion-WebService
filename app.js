@@ -4,9 +4,7 @@ const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo');
 var session = require('express-session');
 const path = require('path');
-
 const fileUpload = require('express-fileupload');
-
 
 const logger = require("./controllers/logger");
 const pageRouther = require('./routes/PageRouthe');

@@ -54,7 +54,7 @@ exports.codeVerification = async(req,res) =>{
     const hash = bcrypt.hashSync(req.body.code, salt);
     await User.findOneAndUpdate({MetaID:req.session.userID},{key_image:hash});
     try {
-        res.redirect('/image');
+        res.redirect('/images');
     } catch (error) {
         res.status(400).json({
             status: "fail",
