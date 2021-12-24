@@ -14,6 +14,19 @@ exports.getHomePage = async(req,res) =>{
     }
 };
 
+exports.getHomePage = async(req,res) =>{
+    try {
+        res.status(201).render('homepage',{
+        status: "success",
+    });   
+    } catch (error) {
+        res.status(400).json({
+            status: "fail",
+            error,
+         });
+    }
+};
+
 exports.getUserPage = async(req,res) =>{
     try {
         if (req.session.userID != null || req.session.userID != undefined ) {

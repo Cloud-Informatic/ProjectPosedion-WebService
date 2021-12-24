@@ -4,6 +4,7 @@ const pageController = require('../controllers/PageController');
 
 const router = express.Router();
 
+
 router.route('/').get(authController.getHomePage);
 router.route('/user').get(authController.getUserPage);
 router.route('/images').get(pageController.getimagePage);
