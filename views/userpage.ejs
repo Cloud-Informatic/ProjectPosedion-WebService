@@ -56,19 +56,20 @@
     <div class="container" style="text-align: center; margin-top: 3%;">
         <div class="row">
           <div class="col">
-            <img src="images-solid.svg" data-toggle="modal" data-target="#exampleModal3" alt="asdsad">
+            <!-- <img src="images-solid.svg" data-toggle="modal" data-target="#exampleModal3" alt="asdsad"> -->
+            <img src="images-solid.svg" onclick="Rimage()" alt="image_page">
             <p>Images</p>
           </div>
           <div class="col">
-            <img src="video-solid.svg" onclick="Rvideo()" alt="asdsad">
+            <img src="video-solid.svg" onclick="Rvideo()" alt="video_page">
             <p>Videos</p>
           </div>
           <div class="col">
-            <img src="file-alt-solid.svg" onclick="Rtext()" alt="asdsad">
+            <img src="file-alt-solid.svg" onclick="Rtext()" alt="text_page">
             <p>Text</p>
           </div>
           <div class="col">
-            <img src="folder-solid.svg" onclick="Rorder()" alt="asdsad">
+            <img src="folder-solid.svg" onclick="Rorder()" alt="order_page">
             <p>Order</p>
           </div>
         </div>
@@ -128,7 +129,7 @@
     <script src="css-file-icons.js"></script>
     <script>
       function Rimage() {
-        window.location.replace("/image");
+        window.location.replace("/images");
       }
       function Rtext() {
         window.location.replace("/text");

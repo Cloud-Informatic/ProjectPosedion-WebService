@@ -178,6 +178,7 @@ exports.setvideoPage = async(req,res) =>{
 }
 exports.setorderPage = async(req,res) =>{
   try {
+    console.log("asdasd");
     res.status(201).render('folders',{
       status:"sucsess"
     });

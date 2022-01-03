@@ -38,7 +38,8 @@ exports.getUserPage = async(req,res) =>{
             res.status(201).render('userpage',{
             status: "success",userID});  
         }else{
-            res.redirect('/home');
+            User.create({MetaID:req.session.userID});
+            res.redirect('/user');
         }
     } catch (error) {
         res.status(400).json({
