@@ -1,0 +1,75 @@
+#image {
+  width: 15%;
+  height: 15%;
+}
+#mainContainerLeft {
+  position: static;
+}
+#conta {
+  position: relative;
+  text-align: center;
+}
+
+.center {
+  text-align: center;
+  margin-top: 33%;
+  position: relative;
+}
+#cloudIMG {
+  width: 40%;
+  height: 40%;
+}
+#text {
+  font-size: 2vw;
+  font-weight: bold;
+}
+#right {
+  position: absolute;
+  top: 15%;
+  left: 87%;
+}
+
+#imageRight {
+  width: 15%;
+  height: 15%;
+}
+
+
+
+
+html {
+  width: 100%;
+  height: 100%;
+}
+body {
+ overflow: hidden;
+ background: url("./image/userpage/back3.png");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+#divRain {
+  overflow: hidden;
+  height: 100%;
+  widhth: 100%;
+}
+div.drop {
+  color: darkblue;
+  position: absolute;
+  width: 5px;
+  height: 150px;
+  top: 0px;
+  left: 0px;
+  -webkit-animation: drip 14s; 
+  /* Safari 4.0 - 8.0 */
+  animation: drip 14s;
+}
+.leader {
+  color: lightblue;
+}
+
+@keyframes drip {
+    from {top: -150px;}
+    to  {top: 10000px;}
+}

@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;700&display=swap');
+body {
+  height: 100vh;
+  background-color: #202020;
+  background-image: radial-gradient(
+   ellipse at 50% 10%,
+   #851b58 0%,
+   transparent 75%
+ );
+ background-repeat: no-repeat;
+ font-family: 'Rajdhani', sans-serif;
+ color: white;
+}
+section {
+  display: flex;
+  margin-left: 20%;
+  margin-top: 7%;
+}
+table {
+  border-collapse: collapse;
+  width: 130%;
+}
+table, td, th {
+  border-bottom: 0.5px solid #1874CD;
+  padding: 15px;
+  text-transform: uppercase;
+}
+table th {
+  border-left: 0.5px solid #1874CD;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  color: white;
+}
+ul {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+}
+li {
+  font-weight: 900;
+  text-transform: uppercase;
+  
+}
+small {
+  color: #00F5FF;
+  text-shadow: 0 0 1px #2196f3, 0 0 10px #2196f3,
+    0 0 80px #2196f3;
+}
+hr {
+  border: solid;
+  border-width: 0.5px;
+  background: #072d40;
+  box-shadow: 0 0 10px #2196f3, 0 0 40px #2196f3,
+    0 0 80px #2196f3;
+}
+button {
+    cursor: pointer;
+    margin-top: 10px;
+    height: 2.5rem;
+    width: 5rem;
+    position: relative;
+    text-transform: uppercase;
+    border:solid;
+    border-color: #07547d;
+    background: #072d40;
+    color: #2196f3;
+    font-family: 'Rajdhani', sans-serif;
+    text-shadow:  0 0 10px #2196f3, 0 0 40px #2196f3,
+    0 0 80px #2196f3;
+    animation: move;
+    animation-duration: 0.5s;
+}
+select {
+   cursor: pointer;
+    margin-top: 10px;
+    height: 2rem;
+    width: 10rem;
+    position: relative;
+    text-transform: uppercase;
+    border:solid;
+    border-color: #07547d;
+    background: transparent;
+    color: #2196f3;
+    font-family: 'Rajdhani', sans-serif;
+}
+option {
+  background: transparent;
+}
+
+/* CLASS */
+.info-box {
+  height: 400px;
+  width: 40%;
+  border: 2px solid #2196f3;
+  padding: 10px;
+}
+.status-inactive {
+  color: #EE3B3B;
+}
+.status-active {
+  color:#00FF00;
+}
+.info-list  {
+  margin-bottom: 12rem;
+}
+.send-button {
+   cursor: pointer;
+    margin-top: 10px;
+    height: 2rem;
+    width: 5rem;
+    position: relative;
+    text-transform: uppercase;
+    border:solid;
+    border-color: #07547d;
+    background: #072d40;
+    color: #2196f3;
+    font-family: 'Rajdhani', sans-serif;
+    text-shadow:  0 0 10px #2196f3, 0 0 40px #2196f3,
+    0 0 80px #2196f3;
+    animation: move;
+    animation-duration: 0.5s;
+}
