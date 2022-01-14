@@ -18,6 +18,7 @@ section {
 }
 table {
   border-collapse: collapse;
+  margin-left: 45px;
   width: 130%;
 }
 table, td, th {

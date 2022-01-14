@@ -119,7 +119,6 @@ exports.getorderPage = async(req,res) =>{
 
 
 // ------------------------------------ SET Operasyon ------------------------------------
-
 exports.setimagePage = async(req,res) =>{
   let uploadImage = req.files.image;
   let OriginImagename = uploadImage.name.split('.');
@@ -166,10 +165,21 @@ exports.settextPage = async(req,res) =>{
   }
 }
 exports.setvideoPage = async(req,res) =>{
+  let uploadImage = req.files.image;
+  let OriginImagename = uploadImage.name.split('.');
+  OriginImagename = OriginImagename[OriginImagename.length-1].toLowerCase();
+  const imageName = uuidv4();
+  let uploadPath = './public/image/WebSiteUploads/video/' + `${imageName}`;
+  console.log(uploadImage);
   try {
-    res.status(201).render('folders',{
-      status:"sucsess"
+    uploadImage.mv(uploadPath, async () =>{
+      await VideoModel.create({
+        video: 'image/WebSiteUploads/video/' + `${imageName}`,
+        owner:req.session.userID,
+        type:OriginImagename ,
+        SubTitle:req.body.subTitle});
     });
+    res.redirect('/video');
   } catch (error) {
     res.status(400).json({
       status:"fail"

@@ -13,7 +13,14 @@ const postRouther = require('./routes/postRouther');
 
 
 //Mongose Locale DB Connect
-mongoose.connect('mongodb://localhost/YMGK-T',{
+// mongoose.connect('mongodb://localhost/YMGK-T',{
+//     useNewUrlParser:true,
+//     useUnifiedTopology:true
+// }).then(()=>{
+//     console.log('Mongo - DB Connection');
+// })
+
+mongoose.connect('mongodb+srv://posedion-test:Mkdazit6ZQ0bhSNG@cluster0.aazzx.mongodb.net/Posedion-Test2?retryWrites=true&w=majority',{
     useNewUrlParser:true,
     useUnifiedTopology:true
 }).then(()=>{
