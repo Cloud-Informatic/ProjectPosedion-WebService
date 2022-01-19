@@ -1,5 +1,7 @@
+// Sistemin log kayıtlarının oluşturulduğu sistem dosya.
 const {createLogger,transports,format} = require('winston');
 
+// Sistemin aktifliğinin takip edildiği log fonksiyonu
 const portLogger_Active = createLogger({
     transports:[
         new transports.File({
@@ -9,7 +11,7 @@ const portLogger_Active = createLogger({
         })
     ]
 });
-
+// Sistemin de-aktifliğinin takip edildiği log fonksiyonu
 const portLogger_NonActive = createLogger({
     transports:[
         new transports.File({
@@ -19,9 +21,5 @@ const portLogger_NonActive = createLogger({
         })
     ]
 });
-
-
-
-
 
 module.exports = {portLogger_Active,portLogger_NonActive}

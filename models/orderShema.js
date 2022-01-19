@@ -5,8 +5,8 @@ const Order_Shema = new Schema({
     owner:{
         type: String,
     },
-    order:{
-        type:String,
+    path:{
+        type: String,
     },
     SubTitle:{
         type:String

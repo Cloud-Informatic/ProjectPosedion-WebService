@@ -1,6 +1,8 @@
+// Veri tabanı için User modelini çağırıp, bcrypt kütüphanesini aktive ediyoruz. 
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 
+// PageRouthe içerisinden yönlendirme ile tetiklenen ana sayfayı getiren fonksiyon
 exports.getHomePage = async(req,res) =>{
     try {
         res.status(201).render('homepage',{
@@ -14,24 +16,16 @@ exports.getHomePage = async(req,res) =>{
     }
 };
 
-exports.getHomePage = async(req,res) =>{
-    try {
-        res.status(201).render('homepage',{
-        status: "success",
-    });   
-    } catch (error) {
-        res.status(400).json({
-            status: "fail",
-            error,
-         });
-    }
-};
-
+// PageRouthe içerisinden yönlendirme ile tetiklenen kullanıcı sayfasını getiren fonksiyon
 exports.getUserPage = async(req,res) =>{
     try {
+        // Oturum ID değerinin boş veya tanımsız olup olmadığını kontol ediyoruz
         if (req.session.userID != null || req.session.userID != undefined ) {
+            // app.js içerisinde olan global değişkeni oturum açılan ıd ile eşitliyoruz 
             userID = req.session.userID;
+            // userIn değişkeni veritabanında kayıt işlemlerini kontor eder.   
             const userIn = await User.exists({MetaID:req.session.userID});
+            // Eğer sistemde kayıt yoksa kayıt işlemi yapar
             if (userIn == false) {
               User.create({MetaID:req.session.userID});
             }
@@ -49,8 +43,8 @@ exports.getUserPage = async(req,res) =>{
     }
 };
 
+// Kullanıcının Wallet değerini öğreniriz
 exports.getwallet = async(req,res) =>{
-    //    console.log(req.body);
      try {
         req.session.userID = req.body.walletid;
         console.log(`UserID => ${req.session.userID}`);

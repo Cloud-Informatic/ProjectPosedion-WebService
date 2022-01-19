@@ -13,19 +13,20 @@ const postRouther = require('./routes/postRouther');
 
 
 //Mongose Locale DB Connect
-// mongoose.connect('mongodb://localhost/YMGK-T',{
-//     useNewUrlParser:true,
-//     useUnifiedTopology:true
-// }).then(()=>{
-//     console.log('Mongo - DB Connection');
-// })
-
-mongoose.connect('mongodb+srv://posedion-test:Mkdazit6ZQ0bhSNG@cluster0.aazzx.mongodb.net/Posedion-Test2?retryWrites=true&w=majority',{
+mongoose.connect('mongodb://localhost/YMGK-T',{
     useNewUrlParser:true,
     useUnifiedTopology:true
 }).then(()=>{
     console.log('Mongo - DB Connection');
 })
+
+//Mongose UzakSunucu DB Connect
+// mongoose.connect('mongodb+srv://posedion-test:Mkdazit6ZQ0bhSNG@cluster0.aazzx.mongodb.net/Posedion-Test2?retryWrites=true&w=majority',{
+//     useNewUrlParser:true,
+//     useUnifiedTopology:true
+// }).then(()=>{
+//     console.log('Mongo - DB Connection');
+// })
 
 
 //using
@@ -33,7 +34,7 @@ const app = express();
 app.use(fileUpload());
  
 
-//Middlewares -
+//Middlewares 
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.static(path.join(__dirname,'public','js')));
 app.use(express.static(path.join(__dirname,'public','css')));
@@ -53,7 +54,7 @@ app.use(session({
     store: MongoStore.create({ mongoUrl: 'mongodb://localhost/YMGK-T'}),
 }));
 
-
+// Global Değişkenlerin Oluşturulması
 app.use('*',(req,res,next) =>{
     userIN = req.session.userID;
     next();
@@ -64,7 +65,7 @@ app.use('/post',postRouther)
 
 
 
-
+// Port İşlemleri
 const port = process.env.PORT || 80; 
 app.listen(port,()=>{
     console.log("Port Dinleniyor");

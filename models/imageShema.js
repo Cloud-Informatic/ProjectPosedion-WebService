@@ -5,8 +5,8 @@ const Image_Shema = new Schema({
     owner:{
         type: String,
     },
-    video:{
-        type:String,
+    path:{
+        type: String,
     },
     SubTitle:{
         type:String

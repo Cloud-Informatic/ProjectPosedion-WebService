@@ -1,4 +1,6 @@
-// ------------------ Library  ------------------
+// ------------------ Library  -----------------
+const crypto = require('crypto');
+const fs = require('fs');
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 const fileUpload = require('express-fileupload');
@@ -19,6 +21,7 @@ app.use(fileUpload());
 
 // ------------------------------------ GET Operasyon ------------------------------------
 // ------------------GET IMAGE ------------------
+// Hangi Sayfada Olduğunu Belirlemek için oluştuurlan değişken
 let WhichPage = 0;
 exports.getimagePage = async(req,res) =>{
   WhichPage = 0
@@ -52,7 +55,6 @@ exports.getvideoPage = async(req,res) =>{
   if (variable_1.length == 0) {
     FileCheck = true;
   }
-  console.log(FileCheck);
   try {
     res.status(201).render('folders',{
       status:"sucsess",
@@ -120,19 +122,19 @@ exports.getorderPage = async(req,res) =>{
 
 // ------------------------------------ SET Operasyon ------------------------------------
 exports.setimagePage = async(req,res) =>{
-  let uploadImage = req.files.image;
-  let OriginImagename = uploadImage.name.split('.');
-  OriginImagename = OriginImagename[OriginImagename.length-1].toLowerCase();
-  // Resim formatlarını kontorl et
-  const imageName = uuidv4();
-  let uploadPath = './public/image/WebSiteUploads/images/' + `${imageName}`;
+  let uploadedFile = req.files.image;
+  let OriginFileName = uploadedFile.name.split('.');
+  OriginFileName = OriginFileName[OriginFileName.length-1].toLowerCase();
+  const uuids = uuidv4();
+  const fileName = `${uuids}.${OriginFileName}`;
+  let uploadPath = './public/image/WebSiteUploads/images/' + `${fileName}`;
   console.log(`Resim Yolu => ${uploadPath}`);
   try {
-    uploadImage.mv(uploadPath, async () =>{
+    uploadedFile.mv(uploadPath, async () =>{
       await ImageModel.create({
-        image: 'image/WebSiteUploads/images/' + `${imageName}`,
+        path: 'image/WebSiteUploads/images/' + `${fileName}`,
         owner:req.session.userID,
-        type:OriginImagename ,
+        type:OriginFileName ,
         SubTitle:req.body.subTitle});
     });
     res.redirect('/images');
@@ -142,19 +144,21 @@ exports.setimagePage = async(req,res) =>{
     });
   }
 }
+
 exports.settextPage = async(req,res) =>{
-  let uploadImage = req.files.image;
-  let OriginImagename = uploadImage.name.split('.');
-  OriginImagename = OriginImagename[OriginImagename.length-1].toLowerCase();
-  const imageName = uuidv4();
-  let uploadPath = './public/image/WebSiteUploads/text/' + `${imageName}`;
-  console.log(uploadImage);
+  let uploadedFile = req.files.image;
+  let OriginFileName = uploadedFile.name.split('.');
+  OriginFileName = OriginFileName[OriginFileName.length-1].toLowerCase();
+  const uuids = uuidv4();
+  const fileName = `${uuids}.${OriginFileName}`;
+  let uploadPath = './public/image/WebSiteUploads/text/' + `${fileName}`;
+  console.log(`Resim Yolu => ${uploadPath}`);
   try {
-    uploadImage.mv(uploadPath, async () =>{
+    uploadedFile.mv(uploadPath, async () =>{
       await TextModel.create({
-        text: 'image/WebSiteUploads/text/' + `${imageName}`,
+        path: 'image/WebSiteUploads/text/' + `${fileName}`,
         owner:req.session.userID,
-        type:OriginImagename ,
+        type:OriginFileName,
         SubTitle:req.body.subTitle});
     });
     res.redirect('/text');
@@ -165,18 +169,19 @@ exports.settextPage = async(req,res) =>{
   }
 }
 exports.setvideoPage = async(req,res) =>{
-  let uploadImage = req.files.image;
-  let OriginImagename = uploadImage.name.split('.');
-  OriginImagename = OriginImagename[OriginImagename.length-1].toLowerCase();
-  const imageName = uuidv4();
-  let uploadPath = './public/image/WebSiteUploads/video/' + `${imageName}`;
-  console.log(uploadImage);
+  let uploadedFile = req.files.image;
+  let OriginFileName = uploadedFile.name.split('.');
+  OriginFileName = OriginFileName[OriginFileName.length-1].toLowerCase();
+  const uuids = uuidv4();
+  const fileName = `${uuids}.${OriginFileName}`;
+  let uploadPath = './public/image/WebSiteUploads/video/' + `${fileName}`;
+  console.log(`Resim Yolu => ${uploadPath}`);
   try {
-    uploadImage.mv(uploadPath, async () =>{
+    uploadedFile.mv(uploadPath, async () =>{
       await VideoModel.create({
-        video: 'image/WebSiteUploads/video/' + `${imageName}`,
+        path: 'image/WebSiteUploads/video/' + `${fileName}`,
         owner:req.session.userID,
-        type:OriginImagename ,
+        type:OriginFileName,
         SubTitle:req.body.subTitle});
     });
     res.redirect('/video');
@@ -187,13 +192,78 @@ exports.setvideoPage = async(req,res) =>{
   }
 }
 exports.setorderPage = async(req,res) =>{
+  let uploadedFile = req.files.image;
+  let OriginFileName = uploadedFile.name.split('.');
+  OriginFileName = OriginFileName[OriginFileName.length-1].toLowerCase();
+  const uuids = uuidv4();
+  const fileName = `${uuids}.${OriginFileName}`;
+  let uploadPath = './public/image/WebSiteUploads/order/' + `${fileName}`;
+  console.log(`Resim Yolu => ${uploadPath}`);
   try {
-    res.status(201).render('folders',{
-      status:"sucsess"
+    uploadedFile.mv(uploadPath, async () =>{
+      await OrderModel.create({
+        path: 'image/WebSiteUploads/order/' + `${fileName}`,
+        owner:req.session.userID,
+        type:OriginFileName,
+        SubTitle:req.body.subTitle});
     });
+    res.redirect('/order');
   } catch (error) {
     res.status(400).json({
       status:"fail"
     });
   }
+}
+
+
+// ------------------------------------ CRYPTO Operasyon ------------------------------------
+// Sayfa İndisleri =>  İmage = 0 || Video = 1 || Text = 2 || Order = 3
+
+exports.enCrypto = async(req,res) =>{
+  var folderPath;
+  console.log(req.body)
+  const variable_1 = await ImageModel.find({_id:req.body.Folder_id});
+  variable_1.forEach(element => {
+    folderPath = element.path;
+  });
+  console.log("Dosya yolu = "+folderPath);
+
+  const algorithm = 'aes-192-cbc';
+  const password = req.body.privateid;
+  const key = crypto.scryptSync(password, 'salt', 24);
+  const iv = Buffer.alloc(16, 0);
+  const cipher = crypto.createCipheriv(algorithm, key, iv);
+  
+  const input = fs.createReadStream(`public/${folderPath}`);
+  const output = fs.createWriteStream(`public/${folderPath}`);
+  
+  input.pipe(cipher).pipe(output);
+
+
+
+
+
+
+  // Şifreleme İşlemleri sonrasında kullanıcı nerede şifreleme yaptıysa onu orada tutmak için koşul ifadeleri kullanmaktayız!
+  const PageIndex = req.body.pageNumber;
+  switch(PageIndex) {
+    case "0":
+      res.redirect('/images');
+      break;
+    case "1":
+      res.redirect('/video');
+      break;
+    case "2":
+      res.redirect('/text');
+      break;
+    case "3":
+      res.redirect('/order');
+      break;
+    default:
+      res.redirect('/user');
+  }
+}
+
+exports.deCrypto = async(req,res) =>{
+  console.log(req.body)
 }

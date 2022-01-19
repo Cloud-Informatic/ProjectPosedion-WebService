@@ -5,6 +5,9 @@ const Video_Shema = new Schema({
     owner:{
         type: String,
     },
+    path:{
+        type: String,
+    },
     folderPath:{
         type:String,
     },
