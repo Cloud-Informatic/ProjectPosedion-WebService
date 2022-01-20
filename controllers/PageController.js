@@ -474,7 +474,7 @@ exports.deleteFolder = async (req, res) => {
   });
   console.log(variable_1);
   res.redirect("/images");
-  fs.unlink(`public/${variable_1.path}`, function (err) {
+  fs.rm(`public/${variable_1.path}`, function (err) {
     if (err) return console.log(err);
     console.log("file deleted successfully");
   });
