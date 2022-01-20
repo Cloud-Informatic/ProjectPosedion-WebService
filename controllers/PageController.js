@@ -18,17 +18,23 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(fileUpload());
 
-// ------------------------------------ GET Operasyon ------------------------------------
+// ---------------------------------------------------- GET Operasyon ----------------------------------------------------
+
+// 4 Fonksiyon birbirine benzediği için İmage üzerinden anlatım yapılmıştır
 // ------------------GET IMAGE ------------------
-// Hangi Sayfada Olduğunu Belirlemek için oluştuurlan değişken
+// Kullanıcının hangi Sayfada olduğunu belirlemek için oluşturulan değişken.
 let WhichPage = 0;
 exports.getimagePage = async (req, res) => {
   WhichPage = 0;
+  // Yğklemiş olduğu dosya olup olmadığının kontontrolünü sağlarız
   let FileCheck = false;
+  // Kullanıcının image içerisinde olup olmadığını kontrol ederiz
   const userIn = await ImageModel.exists({ MetaID: req.session.userID });
+  // Kullanıcının İmage veri tabanında olup olmağını kontrol ederiz. 
   const variable_1 = await ImageModel.find({ owner: req.session.userID }).sort({
     index: 1,
   });
+  // UI'ı değiştirip kullanıcıya ekleme yapması için görüntüyü değiştiririz.(Folder.ejs)
   if (variable_1.length == 0) {
     FileCheck = true;
   }
@@ -125,16 +131,25 @@ exports.getorderPage = async (req, res) => {
   }
 };
 
-// ------------------------------------ SET Operasyon ------------------------------------
+// ---------------------------------------------------- SET Operasyon ----------------------------------------------------
+
+// ------------------SET IMAGE ------------------
+    // Folder.ejs'den gelen Insert butonu ile tetiklenen Post işlemini karşılar.
 exports.setimagePage = async (req, res) => {
+  // Gönderilen dosya ve bilgileri uploadedFile değişkene alıyoruz.
   let uploadedFile = req.files.image;
+  // Yükleme ismini dosya türünü belirlemek için . sonrası ve öncesi için ayırıyoruz.  
   let OriginFileName = uploadedFile.name.split(".");
+  // Dosyanın türünü OriginFileName değişkenine kayıt işlemi için kayıt ediyoruz.
   OriginFileName = OriginFileName[OriginFileName.length - 1].toLowerCase();
+  // unic bir isim oluşturuyoruz.
   const uuids = uuidv4();
+  // Kullacının göndermiş olduğu dosya ismini unic bir isim ile değitiriyoruz
   const fileName = `${uuids}.${OriginFileName}`;
+  // Kayıt işlemleri için dosya yükleme alanını tanımlıyoruz
   let uploadPath = "./public/image/WebSiteUploads/images/" + `${fileName}`;
-  console.log(`Resim Yolu => ${uploadPath}`);
   try {
+    // .mv yüklenen dosyayı sisteme kaydetmek için tanımlanır. içesinde oluşturulan asenkron fonksiyon ile dosyayı sisteme alırken veri tabanına kayıt işlemlerini tamamlıyoruz. 
     uploadedFile.mv(uploadPath, async () => {
       await ImageModel.create({
         path: "image/WebSiteUploads/images/" + `${fileName}`,
@@ -143,6 +158,7 @@ exports.setimagePage = async (req, res) => {
         SubTitle: req.body.subTitle,
       });
     });
+    // Yükleme sonrası image yönlendirmesini yapıyoruz.
     res.redirect("/images");
   } catch (error) {
     res.status(400).json({
@@ -151,6 +167,8 @@ exports.setimagePage = async (req, res) => {
   }
 };
 
+// ------------------SET TEXT ------------------
+// Set image bölgesinde uygulanan yaklaşımların aynısı geri kalan set işlemleri için uygulanmaktadır.
 exports.settextPage = async (req, res) => {
   let uploadedFile = req.files.image;
   let OriginFileName = uploadedFile.name.split(".");
@@ -175,6 +193,8 @@ exports.settextPage = async (req, res) => {
     });
   }
 };
+
+// ------------------SET VIDEO ------------------
 exports.setvideoPage = async (req, res) => {
   let uploadedFile = req.files.image;
   let OriginFileName = uploadedFile.name.split(".");
@@ -199,6 +219,8 @@ exports.setvideoPage = async (req, res) => {
     });
   }
 };
+
+// ------------------SET ORDER ------------------
 exports.setorderPage = async (req, res) => {
   let uploadedFile = req.files.image;
   let OriginFileName = uploadedFile.name.split(".");
@@ -227,36 +249,87 @@ exports.setorderPage = async (req, res) => {
 // ------------------------------------ CRYPTO Operasyon ------------------------------------
 // Sayfa İndisleri =>  İmage = 0 || Video = 1 || Text = 2 || Order = 3
 exports.enCrypto = async(req,res) =>{
+  // Dosya yolunu ve tipini kullanmak için öntanım yapıyoruz.
   var folderPath;
   var folderType;
-  const variable_1 = await ImageModel.find({_id:req.body.Folder_id});
-  variable_1.forEach(element => {
-    folderPath = element.path;
-    folderType = element.type;
-  });
-  console.log("Dosya yolu = "+folderPath);
-
-
-  const algorithm = 'aes-192-cbc';
-  const password = req.body.privateid;
-  const key = crypto.scryptSync(password, 'salt', 24);
-  const iv = Buffer.alloc(16, 0);
-  const cipher = crypto.createCipheriv(algorithm, key, iv);
-  const input = fs.createReadStream(`public/${folderPath}`);
-  const newPath = `image/WebSiteUploads/images/${uuidv4()}.${folderType}`;
-
-  const replace = await ImageModel.findByIdAndUpdate(req.body.Folder_id,{path:newPath, IsEncrypted:true},{new:true}, function(err, result){
-    if(err){
-        console.log(err);
+  // Kullanıcının işlemleri hangi sayfada yaptığını belirlemek için istekte gönderdiğimiz değer içerisinde gizli değerde alınan sayfa numarasını tanımlıyoruz
+  const PageIndex = req.body.pageNumber;
+  // Dosyayı şifrelememiz için kullanıcının hangi dosyayı seçtiğini, seçtiği dosyanın ID numarasını veri tabanından aratıyoruz.
+    switch(PageIndex) {
+      case "0":
+        var variable_1 = await ImageModel.find({_id:req.body.Folder_id});
+        // Sonuçlar içersinde dosya yolu ve tip değişkenlerini içeriye kabul ediyoruz 
+        variable_1.forEach(element => {
+          folderPath = element.path;
+          folderType = element.type;
+        });
+        break;
+      case "1": 
+        var variable_1 = await VideoModel.find({_id:req.body.Folder_id});
+        variable_1.forEach(element => {
+          folderPath = element.path;
+          folderType = element.type;
+        });
+        break;
+      case "2":
+        var variable_1 = await TextModel.find({_id:req.body.Folder_id});
+        variable_1.forEach(element => {
+          folderPath = element.path;
+          folderType = element.type;
+        });
+        break;
+      case "3":
+        var variable_1 = await OrderModel.find({_id:req.body.Folder_id});
+        variable_1.forEach(element => {
+          folderPath = element.path;
+          folderType = element.type;
+        });
+        break;
+      default:
+        res.redirect('/user');
     }
-    console.log("RESULT: " + result);
-  }).clone().catch(function(err){ console.log(err)});
 
+  // Burada AES algoritmasını seçtik fakat sistem geliştirilmeye devam ederse şifreleme algoritmaları tanımlanıp kullanıcı şifreleme işlemlerinde Algoritma, Karıştırma ve Buffer oranını kendisi ayarlayabilir.
+  const algorithm = 'aes-192-cbc';
+  // İStekten gelen şifreyi algoritmanın private anahtarı olarak tanımlıyoruz
+  const password = req.body.privateid;
+  // Gönderilen anahtarın HASHini alıp
+  const key = crypto.scryptSync(password, 'salt', 24);
+  // Buffer değerini iv değişkenine atıyoruz
+  const iv = Buffer.alloc(16, 0);
+  // Dosya şifrelenmesi için Algoritma,Anahtar ve buffer değerlerini hazır tutuyoruz
+  const cipher = crypto.createCipheriv(algorithm, key, iv);
+  // Kullanın şifrelenecek dosyası sistemden okunuyor
+  const input = fs.createReadStream(`public/${folderPath}`);
+
+  // Kullanıcının hangi sayfadan işlem yaptığını belirleyip veritabanını yeni değerini oluşturuyoruz
+  switch(PageIndex) {
+    case "0":
+      var newPath = `image/WebSiteUploads/images/${uuidv4()}.${folderType}`;
+      var replace = await ImageModel.findByIdAndUpdate(req.body.Folder_id,{path:newPath, IsEncrypted:true},{new:true}, function(err, result){if(err){console.log(err);}}).clone().catch(function(err){ console.log(err)});
+      break;
+    case "1":
+      var newPath = `image/WebSiteUploads/video/${uuidv4()}.${folderType}`;
+      var replace = await VideoModel.findByIdAndUpdate(req.body.Folder_id,{path:newPath, IsEncrypted:true},{new:true}, function(err, result){if(err){console.log(err);}}).clone().catch(function(err){ console.log(err)});
+      break;
+    case "2":
+      var newPath = `image/WebSiteUploads/text/${uuidv4()}.${folderType}`;
+      var replace = await TextModel.findByIdAndUpdate(req.body.Folder_id,{path:newPath, IsEncrypted:true},{new:true}, function(err, result){if(err){console.log(err);}}).clone().catch(function(err){ console.log(err)});
+      break;
+    case "3":
+      var newPath = `image/WebSiteUploads/order/${uuidv4()}.${folderType}`;
+      var replace = await OrderModel.findByIdAndUpdate(req.body.Folder_id,{path:newPath, IsEncrypted:true},{new:true}, function(err, result){if(err){console.log(err);}}).clone().catch(function(err){ console.log(err)});
+      break;
+    default:
+      res.redirect('/user');
+  }
+
+  // Dosya okunup veritabanı işlemleri halledildikten sonra dosyanın çıkış kayıt alanını belirliyoruz. 
   const output = fs.createWriteStream(`public/${newPath}`);
+  // İstenilen dosyayı, cipher değerleri ile çıkışı ayarlayıp işlemleri tamamlıyor...
   input.pipe(cipher).pipe(output);
 
-  // Şifreleme İşlemleri sonrasında kullanıcı nerede şifreleme yaptıysa onu orada tutmak için koşul ifadeleri kullanmaktayız!
-  const PageIndex = req.body.pageNumber;
+  // .. kullanıcı hangi sayfadan istek aldıysa kullanıcıyı geri geldeğe yere götürüyoruz.
   switch(PageIndex) {
     case "0":
       res.redirect('/images');
@@ -275,15 +348,46 @@ exports.enCrypto = async(req,res) =>{
   }
 }
 
+// Şifre çözme işlemleri, şifre oluşturma ile birbirine benzemektedir. Bazı alanlarda [428. Satır] Veritabanı kayıt işlemlerinin ufak alanları değişmektedir.    
 exports.deCrypto = async(req,res) =>{
+ try {
   var folderPath;
   var folderType;
-  const variable_1 = await ImageModel.find({_id:req.body.Folder_id});
-  variable_1.forEach(element => {
-    folderPath = element.path;
-    folderType = element.type;
-  });
-  console.log("Dosya yolu = "+folderPath);
+  var PageIndex = req.body.pageNumber;
+// Sayfa İndisleri =>  İmage = 0 || Video = 1 || Text = 2 || Order = 3
+  switch(PageIndex) {
+    case "0":
+      var variable_1 = await ImageModel.find({_id:req.body.Folder_id});
+      variable_1.forEach(element => {
+        folderPath = element.path;
+        folderType = element.type;
+      });
+      console.log("Dosya yolu = "+folderPath);
+      break;
+    case "1": 
+      var variable_1 = await VideoModel.find({_id:req.body.Folder_id});
+      variable_1.forEach(element => {
+        folderPath = element.path;
+        folderType = element.type;
+      });
+      break;
+    case "2":
+      var variable_1 = await TextModel.find({_id:req.body.Folder_id});
+      variable_1.forEach(element => {
+        folderPath = element.path;
+        folderType = element.type;
+      });
+      break;
+    case "3":
+      var variable_1 = await OrderModel.find({_id:req.body.Folder_id});
+      variable_1.forEach(element => {
+        folderPath = element.path;
+        folderType = element.type;
+      });
+      break;
+    default:
+      res.redirect('/user');
+  }
 
   const algorithm = 'aes-192-cbc';
   const password = req.body.privateid;
@@ -292,21 +396,57 @@ exports.deCrypto = async(req,res) =>{
 
   const decipher = crypto.createDecipheriv(algorithm, key, iv);
   const input = fs.createReadStream(`public/${folderPath}`);
-  const newPath = `image/WebSiteUploads/images/${uuidv4()}.${folderType}`;
 
-  const replace = await ImageModel.findByIdAndUpdate(req.body.Folder_id,{path:newPath, IsEncrypted:false},{new:true}, function(err, result){
-    if(err){
-        console.log(err);
-    }
-    console.log("RESULT: " + result);
-  }).clone().catch(function(err){ console.log(err)});
-
-
-  
+  switch(PageIndex) {
+    case "0":
+      var newPath = `image/WebSiteUploads/images/${uuidv4()}.${folderType}`;
+      var replace = await ImageModel.findByIdAndUpdate(req.body.Folder_id,{path:newPath, IsEncrypted:false},{new:true}, function(err, result){if(err){console.log(err);}}).clone().catch(function(err){ console.log(err)});
+      break;
+    case "1":
+      var newPath = `image/WebSiteUploads/video/${uuidv4()}.${folderType}`;
+      var replace = await VideoModel.findByIdAndUpdate(req.body.Folder_id,{path:newPath, IsEncrypted:false},{new:true}, function(err, result){if(err){console.log(err);}}).clone().catch(function(err){ console.log(err)});
+      break;
+    case "2":
+      var newPath = `image/WebSiteUploads/text/${uuidv4()}.${folderType}`;
+      var replace = await TextModel.findByIdAndUpdate(req.body.Folder_id,{path:newPath, IsEncrypted:false},{new:true}, function(err, result){if(err){console.log(err);}}).clone().catch(function(err){ console.log(err)});
+      break;
+    case "3":
+      var newPath = `image/WebSiteUploads/order/${uuidv4()}.${folderType}`;
+      var replace = await OrderModel.findByIdAndUpdate(req.body.Folder_id,{path:newPath, IsEncrypted:false},{new:true}, function(err, result){if(err){console.log(err);}}).clone().catch(function(err){ console.log(err)});
+      break;
+    default:
+      res.redirect('/user');
+  }
   const output = fs.createWriteStream(`public/${newPath}`);
-
   input.pipe(decipher).pipe(output);
-  const PageIndex = req.body.pageNumber;
+  
+  process.on('uncaughtException', function (err) {
+    console.log(err);
+    var PageIndexs = req.body.pageNumber;
+    switch(PageIndexs) {
+      case "0":
+        ImageModel.findByIdAndUpdate(req.body.Folder_id,{path:folderPath, IsEncrypted:true},{new:true}, function(err, result){if(err){console.log(err);}}).clone().catch(function(err){ console.log(err)});
+        break;
+      case "1":
+        VideoModel.findByIdAndUpdate(req.body.Folder_id,{path:folderPath, IsEncrypted:true},{new:true}, function(err, result){if(err){console.log(err);}}).clone().catch(function(err){ console.log(err)});
+        break;
+      case "2":
+        TextModel.findByIdAndUpdate(req.body.Folder_id,{path:folderPath, IsEncrypted:true},{new:true}, function(err, result){if(err){console.log(err);}}).clone().catch(function(err){ console.log(err)});
+        break;
+      case "3":
+        OrderModel.findByIdAndUpdate(req.body.Folder_id,{path:folderPath, IsEncrypted:true},{new:true}, function(err, result){if(err){console.log(err);}}).clone().catch(function(err){ console.log(err)});
+        break;
+      default:
+        res.redirect('/user');
+    }
+    console.log("Node NOT Exiting...");
+  });
+ } catch (error) {
+  res.status(400).json({
+    status: "fail",
+  });
+ }finally{
+  var PageIndex = req.body.pageNumber;
   switch(PageIndex) {
     case "0":
       res.redirect('/images');
@@ -323,4 +463,5 @@ exports.deCrypto = async(req,res) =>{
     default:
       res.redirect('/user');
   }
+ }
 }

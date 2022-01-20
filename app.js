@@ -6,6 +6,7 @@ var session = require('express-session');
 const path = require('path');
 const fileUpload = require('express-fileupload');
 
+// Logger & Routher Path
 const logger = require("./controllers/logger");
 const pageRouther = require('./routes/PageRouthe');
 const postRouther = require('./routes/postRouther');
@@ -13,20 +14,20 @@ const postRouther = require('./routes/postRouther');
 
 
 //Mongose Locale DB Connect
-mongoose.connect('mongodb://localhost/YMGK-T',{
-    useNewUrlParser:true,
-    useUnifiedTopology:true
-}).then(()=>{
-    console.log('Mongo - DB Connection');
-})
-
-//Mongose UzakSunucu DB Connect
-// mongoose.connect('mongodb+srv://posedion-test:Mkdazit6ZQ0bhSNG@cluster0.aazzx.mongodb.net/Posedion-Test2?retryWrites=true&w=majority',{
+// mongoose.connect('mongodb://localhost/YMGK-T',{
 //     useNewUrlParser:true,
 //     useUnifiedTopology:true
 // }).then(()=>{
 //     console.log('Mongo - DB Connection');
 // })
+
+//Mongose UzakSunucu DB Connect
+mongoose.connect('mongodb+srv://posedion-test:Mkdazit6ZQ0bhSNG@cluster0.aazzx.mongodb.net/Posedion-Test2?retryWrites=true&w=majority',{
+    useNewUrlParser:true,
+    useUnifiedTopology:true
+}).then(()=>{
+    console.log('Mongo - DB Connection');
+})
 
 
 //using

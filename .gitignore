@@ -1,12 +1,9 @@
 # dependencies
 /node_modules
-/Logs
 # testing
 /coverage
-
 # production
 /build
-/public/image
 # misc
 .DS_Store
 .env.local

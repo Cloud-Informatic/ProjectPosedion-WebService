@@ -55,6 +55,7 @@
           <div>
             <table>
               <tr>
+                <th>Sıra</th>
                 <th> İSİM</th>
                 <th> TİP</th>
                 <th style="text-align: center;"> Şifrelendi Mi?</th>
@@ -63,7 +64,7 @@
           <% for (let i=0; i<variable_1.length; i++){ %>
             <tr>
               <td><%= i %></td>
-              <td><%= variable_1[i].SubTitle%></td>
+              <td ><%= variable_1[i].SubTitle%></td>
               <td><%= variable_1[i].type %></td>
               <% if (variable_1[i].IsEncrypted == false) { %>
                 <td style="text-align: center; color: red;">Güvensiz</td>
