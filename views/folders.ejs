@@ -55,10 +55,9 @@
           <div>
             <table>
               <tr>
-                <th> #</th>
                 <th> İSİM</th>
                 <th> TİP</th>
-                <th> Önem Derecesi</th>
+                <th style="text-align: center;"> Şifrelendi Mi?</th>
                 <th> CRUD </th>
               </tr>
           <% for (let i=0; i<variable_1.length; i++){ %>
@@ -66,7 +65,12 @@
               <td><%= i %></td>
               <td><%= variable_1[i].SubTitle%></td>
               <td><%= variable_1[i].type %></td>
-              <td class="status-inactive" style="text-align: center;">LOW</td>
+              <% if (variable_1[i].IsEncrypted == false) { %>
+                <td style="text-align: center; color: red;">Güvensiz</td>
+              <% } %>
+              <% if (variable_1[i].IsEncrypted == true) { %>
+                <td style="text-align: center; color: green;">Güvenli</td>
+              <% } %>
               <td> <a href="#">Sil </a></td>
               <td> <a download="<%= variable_1[i].SubTitle%>.<%= variable_1[i].type %>" href="<%=variable_1[i].path%> ">İndir </a></td>
             </tr>
@@ -75,7 +79,7 @@
               <div class="buttons" style="text-align: center; margin-left: 255px; margin-top: 13px;">
                 <button data-toggle="modal" data-target="#exampleModal3">Insert</button>
                 <button data-toggle="modal" data-target="#cipher">EnCrypto</button>
-                <button data-toggle="modal" data-target="#cipher">DeCrypto</button>
+                <button data-toggle="modal" data-target="#decipher">DeCrypto</button>
               </div>
             </div>
         </section>
@@ -150,6 +154,37 @@
   </div>
 </div>
 <!-- Modal Cipher Son  -->
+
+<!-- Modal deCipher -->
+<div class="modal fade" id="decipher" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="DeCripto" method="post" action="post/deCrypto">
+          <select name="Folder_id">
+            <% for (let i=0; i<variable_1.length; i++){ %>
+               <option value="<%= variable_1[i]._id%>"><%= variable_1[i].SubTitle%></option>
+            <%}%>
+            <input type="text" name="privateid">
+
+            <input type="hidden" name="pageNumber" value="<%=WhichPage%>">
+          </select>
+          <button type="submit">Gönder</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal deCipher Son  -->
 
 </body>
 <script>

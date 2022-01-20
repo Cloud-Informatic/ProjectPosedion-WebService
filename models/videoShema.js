@@ -14,6 +14,10 @@ const Video_Shema = new Schema({
     SubTitle:{
         type:String
     },
+    IsEncrypted:{
+        type:Boolean,
+        default:false
+    },
     type:{
         type:String
     },

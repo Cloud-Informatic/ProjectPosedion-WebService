@@ -14,6 +14,10 @@ const Order_Shema = new Schema({
     type:{
         type:String
     },
+    IsEncrypted:{
+        type:Boolean,
+        default:false
+    },
     createAt:{
         type: Date, 
         default: new Date(Date.now() + 3 * 60 * 60 * 1000),
