@@ -18,5 +18,5 @@ router.route('/order').post(pageController.setorderPage);
 
 router.route('/enCrypto').post(pageController.enCrypto);
 router.route('/deCrypto').post(pageController.deCrypto);
-
+router.route('/deleteFolder').post(pageController.deleteFolder);
 module.exports = router;

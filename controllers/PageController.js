@@ -465,3 +465,17 @@ exports.deCrypto = async(req,res) =>{
   }
  }
 }
+
+// Dosya Silme İşlemi
+
+exports.deleteFolder = async (req, res) => {
+  const variable_1 = await ImageModel.findByIdAndDelete({
+    _id: req.body.Folder_id,
+  });
+  console.log(variable_1);
+  res.redirect("/images");
+  fs.unlink(`public/${variable_1.path}`, function (err) {
+    if (err) return console.log(err);
+    console.log("file deleted successfully");
+  });
+};
