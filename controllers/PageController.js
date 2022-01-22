@@ -472,6 +472,7 @@ exports.deCrypto = async(req,res) =>{
 }
 
 // Dosya Silme İşlemi
+//asd
 
 exports.deleteFolder = async (req, res) => {
 

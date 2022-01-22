@@ -52,7 +52,7 @@ app.use(session({
     secret: 'ymgk-secret-key',
     resave: false,
     saveUninitialized: true,
-    store: MongoStore.create({ mongoUrl: 'mongodb://localhost/YMGK-T'}),
+    store: MongoStore.create({ mongoUrl: 'mongodb+srv://posedion-test:Mkdazit6ZQ0bhSNG@cluster0.aazzx.mongodb.net/Posedion-Test2?retryWrites=true&w=majority'}),
 }));
 
 // Global Değişkenlerin Oluşturulması
