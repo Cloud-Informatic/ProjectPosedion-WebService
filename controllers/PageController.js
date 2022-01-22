@@ -329,6 +329,11 @@ exports.enCrypto = async(req,res) =>{
   // İstenilen dosyayı, cipher değerleri ile çıkışı ayarlayıp işlemleri tamamlıyor...
   input.pipe(cipher).pipe(output);
 
+  fs.rm(`public/${folderPath}`, function (err) {
+    if (err) return console.log(err);
+    console.log("file deleted successfully");
+  });
+
   // .. kullanıcı hangi sayfadan istek aldıysa kullanıcıyı geri geldeğe yere götürüyoruz.
   switch(PageIndex) {
     case "0":
@@ -421,7 +426,6 @@ exports.deCrypto = async(req,res) =>{
   input.pipe(decipher).pipe(output);
   
   process.on('uncaughtException', function (err) {
-    console.log(err);
     var PageIndexs = req.body.pageNumber;
     switch(PageIndexs) {
       case "0":
@@ -441,6 +445,7 @@ exports.deCrypto = async(req,res) =>{
     }
     console.log("Node NOT Exiting...");
   });
+
  } catch (error) {
   res.status(400).json({
     status: "fail",
@@ -469,13 +474,38 @@ exports.deCrypto = async(req,res) =>{
 // Dosya Silme İşlemi
 
 exports.deleteFolder = async (req, res) => {
-  const variable_1 = await ImageModel.findByIdAndDelete({
-    _id: req.body.Folder_id,
-  });
-  console.log(variable_1);
-  res.redirect("/images");
+
+  const PageIndex = req.body.pageNumber;
+  switch(PageIndex) {
+    case "0":
+      var variable_1 = await ImageModel.findByIdAndDelete({
+        _id: req.body.Folder_id,
+      });
+      res.redirect('/images');
+      break;
+    case "1":
+      var variable_1 = await VideoModel.findByIdAndDelete({
+        _id: req.body.Folder_id,
+      });
+      res.redirect('/video');
+      break;
+    case "2":
+      var variable_1 = await TextModel.findByIdAndDelete({
+        _id: req.body.Folder_id,
+      });
+      res.redirect('/text');
+      break;
+    case "3":
+      var variable_1 = await OrderModel.findByIdAndDelete({
+        _id: req.body.Folder_id,
+      });
+      res.redirect('/order');
+      break;
+    default:
+      res.redirect('/user');
+  }
+
   fs.rm(`public/${variable_1.path}`, function (err) {
     if (err) return console.log(err);
-    console.log("file deleted successfully");
   });
 };

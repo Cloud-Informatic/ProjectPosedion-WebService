@@ -58,55 +58,33 @@
               <tr>
                 <th>Sıra</th>
                 <th> İSİM</th>
-                <th> TİP</th>
+                <th style="text-align: center;"> TİP</th>
                 <th style="text-align: center;"> Şifrelendi Mi?</th>
-                <th> CRUD </th>
+                <th> indir </th>
               </tr>
           <% for (let i=0; i<variable_1.length; i++){ %>
             <tr>
-              <td><%= i %></td>
+              <td><%= i+1 %></td>
               <td ><%= variable_1[i].SubTitle%></td>
-              <td><%= variable_1[i].type %></td>
+              <td style="text-align: center;"><%= variable_1[i].type %></td>
               <% if (variable_1[i].IsEncrypted == false) { %>
-                <td style="text-align: center; color: red;">Güvensiz</td>
+                <td style="text-align: center; color: red; font-size: 15px;">G ü v e n s i z</td>
               <% } %>
               <% if (variable_1[i].IsEncrypted == true) { %>
-                <td style="text-align: center; color: green;">Güvenli</td>
+                <td style="text-align: center; color: rgb(35, 206, 35); font-size: 15px;">G ü v en l i</td>
               <% } %>
-              <td> <a data-toggle="modal" data-target="#delete" href="">Sil </a></td>
+              
+              
               <td> <a download="<%= variable_1[i].SubTitle%>.<%= variable_1[i].type %>" href="<%=variable_1[i].path%> ">İndir </a></td>
             </tr>
-               <!-- Modal Delete -->
-               <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content ">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel"></h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                <div class="modal-body">
-                  <form id="deleteFolder" method="post" action="post/deleteFolder">
-                    <input type="hidden" value="<%= variable_1[i]._id%>" name="Folder_id">
-                    <p style="margin-top: 20px; font-weight: 700; font-size: 20px; text-align: center; color: black;" >Are you sure you want to delete?</p>
-                    <div class="modal-footer">
-                      <button type="submit" class="btn btn-primary" >Okey</button>
-                      
-                    </div>
-                  </form>
-                </div>
-                
-              </div>
-            </div>
-                  </div>
-          <!-- Modal Delete Son  -->
           <%}%> 
             </table>
               <div class="buttons" style="text-align: center; margin-left: 255px; margin-top: 13px;">
                 <button data-toggle="modal" data-target="#exampleModal3">Insert</button>
-                <button data-toggle="modal" data-target="#cipher">EnCrypto</button>
-                <button data-toggle="modal" data-target="#decipher">DeCrypto</button>
+                
+                <button style="margin-left: 1%;" data-toggle="modal" data-target="#cipher">EnCrypto</button>
+                <button style="margin-left: 1%;"  data-toggle="modal" data-target="#decipher">DeCrypto</button>
+                <button data-toggle="modal" data-target="#delete">Delete</button>
               </div>
             </div>
         </section>
@@ -151,6 +129,37 @@
 </div>
 <!-- Modal Insert Son  -->
 
+<!-- Modal Delete -->
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="EnCripto" method="post" action="post/deleteFolder">
+          <p style="margin-top: 20px; font-weight: 700; font-size: 20px; text-align: center; color: black;" >Dosyanı Silmek Üzeresin! <br> Emin misin?</p>
+          <select style="margin-left: 33%; margin-bottom: 40px; text-align: center;" name="Folder_id">
+            <% for (let i=0; i<variable_1.length; i++){ %>
+               <option value="<%= variable_1[i]._id%>"><%= variable_1[i].SubTitle%></option>
+            <%}%>
+            <input type="hidden" name="pageNumber" value="<%=WhichPage%>">
+          </select>
+         
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" >Sil!</button>
+            
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Delete Son  -->
+
 <!-- Modal Cipher -->
 <div class="modal fade" id="cipher" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -163,20 +172,19 @@
       </div>
       <div class="modal-body">
         <form id="EnCripto" method="post" action="post/enCrypto">
-          <select name="Folder_id">
+          <p style="margin-top: 20px; font-weight: 700; font-size: 20px; text-align: center; color: black;" > Dosyanın Parolasını Unutmayın! </p>
+          <select style="margin-left: 35%; margin-bottom: 20px; width: 30%; text-align: center;" name="Folder_id">
             <% for (let i=0; i<variable_1.length; i++){ %>
-               <option value="<%= variable_1[i]._id%>"><%= variable_1[i].SubTitle%></option>
+               <option  value="<%= variable_1[i]._id%>"><%= variable_1[i].SubTitle%></option>
             <%}%>
-            <input type="text" name="privateid">
+            <br><input style="margin-left: 30%; text-align: center;" placeholder="Dosya Şifresi" type="text" name="privateid"><br>
 
             <input type="hidden" name="pageNumber" value="<%=WhichPage%>">
           </select>
-          <button type="submit">Gönder</button>
+          <button style="margin-left: 37%; margin-top: 20px; width: 25%;" type="submit">Şifrele</button>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Save</button>
-      </div>
+      
     </div>
   </div>
 </div>
@@ -194,20 +202,19 @@
       </div>
       <div class="modal-body">
         <form id="DeCripto" method="post" action="post/deCrypto">
-          <select name="Folder_id">
+          <p style="margin-top: 20px; font-weight: 700; font-size: 20px; text-align: center; color: black;" > Dosyayı Şifrelediğiniz Parolayı İlgili Alana Girin! </p>
+          <select style="margin-left: 35%; margin-bottom: 20px; width: 30%; text-align: center;" name="Folder_id">
             <% for (let i=0; i<variable_1.length; i++){ %>
                <option value="<%= variable_1[i]._id%>"><%= variable_1[i].SubTitle%></option>
             <%}%>
-            <input type="text" name="privateid">
+            <input style="margin-left: 31%; text-align: center;" type="text" placeholder="Dosya Şifresini Giriniz" name="privateid">
 
             <input type="hidden" name="pageNumber" value="<%=WhichPage%>">
           </select>
-          <button type="submit">Gönder</button>
+          <button style="margin-left: 37%; margin-top: 20px; width: 25%;" type="submit">Şifre Çöz</button>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Save</button>
-      </div>
+   
     </div>
   </div>
 </div>
