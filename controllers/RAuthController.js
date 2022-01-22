@@ -1,6 +1,5 @@
-// Veri tabanı için User modelini çağırıp, bcrypt kütüphanesini aktive ediyoruz. 
+// Veri tabanı için User modelini çağırıyoruz.  
 const User = require("../models/user");
-const bcrypt = require("bcrypt");
 
 // PageRouthe içerisinden yönlendirme ile tetiklenen ana sayfayı getiren fonksiyon
 exports.getHomePage = async(req,res) =>{
@@ -58,8 +57,7 @@ exports.getwallet = async(req,res) =>{
 
 exports.codeVerification = async(req,res) =>{
     const saltRounds = 10;
-    const salt = bcrypt.genSaltSync(saltRounds);
-    const hash = bcrypt.hashSync(req.body.code, salt);
+
     await User.findOneAndUpdate({MetaID:req.session.userID},{key_image:hash});
     try {
         res.redirect('/images');

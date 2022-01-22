@@ -19,9 +19,7 @@
   "homepage": "https://github.com/Cloud-Informatic/ProjectPosedion-WebService#readme",
   "dependencies": {
     "@metamask/detect-provider": "^1.2.0",
-    "bcrypt": "^5.0.1",
     "connect-mongo": "^4.6.0",
-    "css-file-icons": "^0.1.0",
     "download": "^8.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.2",
