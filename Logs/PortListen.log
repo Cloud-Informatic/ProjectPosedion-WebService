@@ -19,4 +19,8 @@
 {"level":"info","message":"Port 80, is active!","timestamp":"2022-01-22T12:51:57.559Z"}
 {"level":"info","message":"Port 80, is active!","timestamp":"2022-01-22T12:53:56.381Z"}
 {"level":"info","message":"Port 80, is active!","timestamp":"2022-01-22T12:56:52.565Z"}
+<<<<<<< HEAD
 {"level":"info","message":"Port 80, is active!","timestamp":"2022-01-22T16:47:14.684Z"}
+=======
+{"level":"info","message":"Port 80, is active!","timestamp":"2022-01-22T16:38:59.185Z"}
+>>>>>>> fe99f10bf52227824cd28c9548469cea20def052
