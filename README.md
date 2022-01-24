@@ -17,6 +17,10 @@ Poseidon'un nasıl kullanıldığına aşağıdaki linkten ulaşabilirsiniz.<br/
 https://www.youtube.com/watch?v=QM2UUox3sJ8
 
 
+Poseidon'un teknik anlatımına aşağıdaki linkten ulaşabilirsiniz.<br/>
+https://www.youtube.com/watch?v=qWdXI9xTpuY&ab_channel=YusufAkba%C5%9F
+
+
 
 Kaynak kodları referans alınıp geliştirecekler, Node.js için npm'in kurulu olup olmadığını kontrol edip belirtilen yolu izleyerek kaynak kodlarına erişip dilediğiniz gibi düzenleme yapıp deneyebilirsiniz. 
 
